@@ -1,0 +1,25 @@
+{
+  "_comentario": "Configuración de Discord para OpenClaw",
+  "_instrucciones": [
+    "1. Crear aplicación en https://discord.com/developers/applications",
+    "2. Crear bot y copiar el token",
+    "3. Habilitar Privileged Gateway Intents (Presence, Server Members, Message Content)",
+    "4. Generar URL de invitación con permisos necesarios",
+    "5. Reemplazar valores y copiar 'channels.discord' a openclaw.json"
+  ],
+  "channels": {
+    "discord": {
+      "token": "TU_DISCORD_BOT_TOKEN",
+      "allowFrom": [
+        "TU_DISCORD_USER_ID"
+      ],
+      "dmPolicy": "pairing",
+      "guilds": {
+        "_comentario": "Agrega IDs de servidores permitidos aquí",
+        "ID_DEL_SERVIDOR": {
+          "requireMention": true
+        }
+      }
+    }
+  }
+}

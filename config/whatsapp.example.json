@@ -1,0 +1,24 @@
+{
+  "_comentario": "Configuración de WhatsApp para OpenClaw",
+  "_instrucciones": [
+    "1. WhatsApp usa Baileys (protocolo web), no requiere API de Meta",
+    "2. Se vincula como dispositivo adicional de WhatsApp",
+    "3. Ejecutar 'openclaw channels login' para escanear QR",
+    "4. Reemplazar número de teléfono con formato internacional",
+    "5. Copiar 'channels.whatsapp' a openclaw.json"
+  ],
+  "_nota_importante": "Siempre configura allowFrom para seguridad",
+  "channels": {
+    "whatsapp": {
+      "allowFrom": [
+        "+1234567890"
+      ],
+      "dmPolicy": "pairing",
+      "groups": {
+        "*": {
+          "requireMention": true
+        }
+      }
+    }
+  }
+}

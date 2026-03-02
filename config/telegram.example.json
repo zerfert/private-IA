@@ -1,0 +1,25 @@
+{
+  "_comentario": "Configuración de Telegram para OpenClaw",
+  "_instrucciones": [
+    "1. Crear bot con @BotFather en Telegram",
+    "2. Copiar el token proporcionado",
+    "3. Reemplazar TU_BOT_TOKEN con el token real",
+    "4. Reemplazar tu_username con tu usuario de Telegram",
+    "5. Copiar esta sección 'channels.telegram' a openclaw.json"
+  ],
+  "channels": {
+    "telegram": {
+      "botToken": "TU_BOT_TOKEN",
+      "allowFrom": [
+        "tu_username"
+      ],
+      "dmPolicy": "pairing",
+      "groups": {
+        "_comentario": "Agrega IDs de grupos permitidos aquí",
+        "-1001234567890": {
+          "requireMention": true
+        }
+      }
+    }
+  }
+}

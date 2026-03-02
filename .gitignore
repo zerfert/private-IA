@@ -1,0 +1,33 @@
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Environment variables (NUNCA subir API keys)
+.env
+.env.local
+.env.production
+
+# OpenClaw credentials (NUNCA subir credenciales)
+credentials/
+*.key
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Backups locales
+openclaw-backups/

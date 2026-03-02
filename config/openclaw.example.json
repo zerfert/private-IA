@@ -1,0 +1,52 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-opus-4-6",
+        "fallbacks": [
+          "openai/gpt-4o",
+          "anthropic/claude-sonnet-4-5"
+        ]
+      },
+      "models": {
+        "anthropic/claude-opus-4-6": {
+          "alias": "opus"
+        },
+        "openai/gpt-4o": {
+          "alias": "gpt4o"
+        }
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback"
+  },
+  "channels": {
+    "telegram": {
+      "botToken": "TU_TELEGRAM_BOT_TOKEN_AQUI",
+      "allowFrom": [
+        "tu_username"
+      ],
+      "dmPolicy": "pairing"
+    },
+    "discord": {
+      "token": "TU_DISCORD_BOT_TOKEN_AQUI",
+      "allowFrom": [
+        "tu_discord_user_id"
+      ],
+      "dmPolicy": "pairing"
+    },
+    "whatsapp": {
+      "allowFrom": [
+        "+1234567890"
+      ],
+      "dmPolicy": "pairing"
+    }
+  },
+  "tools": {},
+  "browser": {
+    "enabled": true
+  }
+}
