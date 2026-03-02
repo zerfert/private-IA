@@ -6,34 +6,40 @@ OpenClaw soporta múltiples proveedores de IA:
 
 | Proveedor | Modelos Populares | Recomendación |
 |-----------|-------------------|---------------|
-| **Anthropic** | Claude Opus 4.6, Claude Sonnet 4.5 | ⭐ Recomendado para contextos largos |
+| **Google** | Gemini 2.5 Flash, Gemini 2.5 Pro | ⭐ Recomendado (rápido y económico) |
+| **Anthropic** | Claude Opus 4.6, Claude Sonnet 4.5 | Excelente para contextos largos |
 | **OpenAI** | GPT-4o, GPT-5.2, Codex | Bueno para uso general |
-| **Google** | Gemini Pro, Gemini Ultra | Alternativa competitiva |
 | **Otros** | Cualquier modelo compatible con API | Varía |
 
-## Configuración con Anthropic (Claude) - Recomendado
+## Configuración con Google Gemini - Recomendado
 
 ### 1. Obtener API Key
-1. Ir a https://console.anthropic.com/
-2. Crear cuenta o iniciar sesión
-3. Ir a "API Keys" → "Create Key"
+1. Ir a https://aistudio.google.com/apikey
+2. Iniciar sesión con tu cuenta de Google
+3. Clic en "Create API Key"
 4. Copiar la clave generada
 
 ### 2. Configurar en OpenClaw
 
-Editar `~/.openclaw/openclaw.json` (Linux/WSL2) o `%USERPROFILE%\.openclaw\openclaw.json` (Windows):
+Editar `%USERPROFILE%\.openclaw\openclaw.json` (Windows) o `~/.openclaw/openclaw.json` (Linux/WSL2):
 
 ```json
 {
   "agents": {
     "defaults": {
       "model": {
-        "primary": "anthropic/claude-opus-4-6",
-        "fallbacks": []
+        "primary": "google/gemini-2.5-flash",
+        "fallbacks": ["anthropic/claude-opus-4-6"]
       }
     }
   }
 }
+```
+
+O por línea de comandos:
+```powershell
+openclaw config set agents.defaults.model.primary "google/gemini-2.5-flash"
+openclaw config set agents.defaults.model.fallbacks '["anthropic/claude-opus-4-6"]'
 ```
 
 ### 3. Configurar la API Key
@@ -41,13 +47,18 @@ Editar `~/.openclaw/openclaw.json` (Linux/WSL2) o `%USERPROFILE%\.openclaw\openc
 **Windows (PowerShell):**
 ```powershell
 # Permanente
-[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-ant-xxxxxxxxxxxxx", "User")
+[System.Environment]::SetEnvironmentVariable("GEMINI_API_KEY", "AIzaSy-xxxxxxxxxxxxx", "User")
 # Reiniciar PowerShell después
 ```
 
 **Linux/WSL2 (Bash):**
 ```bash
-export ANTHROPIC_API_KEY="sk-ant-xxxxxxxxxxxxx"
+export GEMINI_API_KEY="AIzaSy-xxxxxxxxxxxxx"
+echo 'export GEMINI_API_KEY="AIzaSy-xxxxxxxxxxxxx"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Configuración con Anthropic (Claude)
 echo 'export ANTHROPIC_API_KEY="sk-ant-xxxxxxxxxxxxx"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -109,16 +120,16 @@ Configurar modelos de respaldo en caso de que el principal falle:
   "agents": {
     "defaults": {
       "model": {
-        "primary": "anthropic/claude-opus-4-6",
+        "primary": "google/gemini-2.5-flash",
         "fallbacks": [
-          "openai/gpt-4o",
-          "anthropic/claude-sonnet-4-5"
+          "anthropic/claude-opus-4-6",
+          "openai/gpt-4o"
         ]
       },
       "models": {
+        "google/gemini-2.5-flash": { "alias": "flash" },
         "anthropic/claude-opus-4-6": { "alias": "opus" },
-        "openai/gpt-4o": { "alias": "gpt4o" },
-        "anthropic/claude-sonnet-4-5": { "alias": "sonnet" }
+        "openai/gpt-4o": { "alias": "gpt4o" }
       }
     }
   }

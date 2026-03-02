@@ -107,24 +107,35 @@ try {
 # -----------------------------------------------
 Write-Host "[3/5] Configurando modelo de IA..." -ForegroundColor Yellow
 
+$geminiKey = $env:GEMINI_API_KEY
 $anthropicKey = $env:ANTHROPIC_API_KEY
 $openaiKey = $env:OPENAI_API_KEY
-$apiConfigured = ($null -ne $anthropicKey -and $anthropicKey -ne "") -or ($null -ne $openaiKey -and $openaiKey -ne "")
+$apiConfigured = ($null -ne $geminiKey -and $geminiKey -ne "") -or ($null -ne $anthropicKey -and $anthropicKey -ne "") -or ($null -ne $openaiKey -and $openaiKey -ne "")
 
 if ($apiConfigured) {
+    if ($geminiKey) { Write-Host "  OK GEMINI_API_KEY ya configurada" -ForegroundColor Green }
     if ($anthropicKey) { Write-Host "  OK ANTHROPIC_API_KEY ya configurada" -ForegroundColor Green }
     if ($openaiKey) { Write-Host "  OK OPENAI_API_KEY ya configurada" -ForegroundColor Green }
 } else {
     Write-Host ""
     Write-Host "  Que proveedor de IA deseas usar?" -ForegroundColor White
-    Write-Host "    1) Anthropic (Claude) - Recomendado" -ForegroundColor White
-    Write-Host "    2) OpenAI (GPT-4o)" -ForegroundColor White
-    Write-Host "    3) Configurar despues" -ForegroundColor White
+    Write-Host "    1) Google Gemini (Gemini 2.5 Flash) - Recomendado" -ForegroundColor White
+    Write-Host "    2) Anthropic (Claude)" -ForegroundColor White
+    Write-Host "    3) OpenAI (GPT-4o)" -ForegroundColor White
+    Write-Host "    4) Configurar despues" -ForegroundColor White
     Write-Host ""
-    $providerChoice = Read-Host "  Selecciona (1/2/3)"
+    $providerChoice = Read-Host "  Selecciona (1/2/3/4)"
 
     switch ($providerChoice) {
         "1" {
+            $apiKey = Read-Host "  Ingresa tu GEMINI_API_KEY"
+            if ($apiKey -ne "") {
+                [System.Environment]::SetEnvironmentVariable("GEMINI_API_KEY", $apiKey, "User")
+                $env:GEMINI_API_KEY = $apiKey
+                Write-Host "  OK API key de Gemini configurada (permanente)" -ForegroundColor Green
+            }
+        }
+        "2" {
             $apiKey = Read-Host "  Ingresa tu ANTHROPIC_API_KEY"
             if ($apiKey -ne "") {
                 [System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", $apiKey, "User")
@@ -132,7 +143,7 @@ if ($apiConfigured) {
                 Write-Host "  OK API key de Anthropic configurada (permanente)" -ForegroundColor Green
             }
         }
-        "2" {
+        "3" {
             $apiKey = Read-Host "  Ingresa tu OPENAI_API_KEY"
             if ($apiKey -ne "") {
                 [System.Environment]::SetEnvironmentVariable("OPENAI_API_KEY", $apiKey, "User")
@@ -140,7 +151,7 @@ if ($apiConfigured) {
                 Write-Host "  OK API key de OpenAI configurada (permanente)" -ForegroundColor Green
             }
         }
-        "3" {
+        "4" {
             Write-Host "  AVISO Recuerda configurar la API key antes de usar OpenClaw." -ForegroundColor Yellow
         }
     }
@@ -163,9 +174,13 @@ if (-not (Test-Path $workspaceDir)) { New-Item -ItemType Directory -Path $worksp
 if (-not (Test-Path "$workspaceDir\skills")) { New-Item -ItemType Directory -Path "$workspaceDir\skills" -Force | Out-Null }
 
 # Determinar modelo
-$model = "anthropic/claude-opus-4-6"
-$modelAlias = "opus"
+$model = "google/gemini-2.5-flash"
+$modelAlias = "flash"
 if ($providerChoice -eq "2") { 
+    $model = "anthropic/claude-opus-4-6"
+    $modelAlias = "opus"
+}
+if ($providerChoice -eq "3") { 
     $model = "openai/gpt-4o"
     $modelAlias = "gpt4o"
 }
